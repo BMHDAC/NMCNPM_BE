@@ -129,7 +129,7 @@ const handleNewUser = async (req, res) => {
                 "password" : hashedPwd,
                 "role": role
             };
-            employeeDB.setEmployees([...employeesDB.employees, newEmployee]);
+            employeesDB.setEmployees([...employeesDB.employees, newEmployee]);
             await fsPromises.writeFile(
                 path.join(__dirname, '..', 'model', 'employees.json'),
                 JSON.stringify(employeesDB.employees)
