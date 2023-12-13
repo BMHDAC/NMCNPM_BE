@@ -1,1 +1,1 @@
-[{"id":1,"firstname":"Dave","lastname":"Gray","role":"Employee"},{"id":2,"firstname":"John","lastname":"Smith","role":"Employee"},{"username":"Dac Bui","password":"$2b$10$DhNG4/nSYUEwLbaVy.Caz.iYrZO3d1lQGb5fsBjyNKk.nqyI1MHnG","role":"EMPLOYEE"}]
+[{"username":"buidac","password":"$2b$10$u0/jm3ZVNcQTe/MwIFIawuEuRR7H4uykp7E4d.38mYBgUp3O/avvy","role":"USER","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1aWRhYyIsImlhdCI6MTcwMjQ2Mjc1NywiZXhwIjoxNzAyNTQ5MTU3fQ.lE8K8EEtxuhb_zu3JqDLMV5HQvhkmfmjK7Z7sA6WcbM"}]
