@@ -38,6 +38,7 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/user', require('./routes/api/user'))
+app.use('/schedule',require('./routes/api/schedule'))
 
 
 app.use(errorHandler);

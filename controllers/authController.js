@@ -2,6 +2,10 @@ const usersDB = {
     users: require('../model/users.json'),
     setUsers: function (data) { this.users = data }
 }
+const adminDB = {
+    admin : require('../model/admin.json'),
+    setAdmin : function (data){this.admin=data}
+}
 
 const employeesDB = {
     employees : require('../model/employees.json'),
@@ -33,6 +37,11 @@ const handleLogin = async (req, res) => {
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
+        adminDB.setAdmin({refreshToken})
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', 'model', 'admin.json'),
+            JSON.stringify(adminDB.admin))
+
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         return res.json({ accessToken});
         
@@ -46,7 +55,7 @@ const handleLogin = async (req, res) => {
     // evaluate password 
     const match = await bcrypt.compare(password, foundUser.password);
     if (match) {
-        const role = Object.values(foundUser.role);
+        const role = foundUser.role
         // create JWTs
         const accessToken = jwt.sign(
             {
@@ -56,7 +65,7 @@ const handleLogin = async (req, res) => {
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '30s' }
+            { expiresIn: '1d' }
         );
         const refreshToken = jwt.sign(
             { "username": foundUser.username },
@@ -119,7 +128,8 @@ const handleNewUser = async (req, res) => {
                 "ID":ID,
                 "phone":phone,
                 "assist": null,
-                "role":"USER"
+                "role":"USER",
+                "refreshToken":''
             };
             usersDB.setUsers([...usersDB.users, newUser]);
             await fsPromises.writeFile(
@@ -146,7 +156,8 @@ const handleNewUser = async (req, res) => {
                 "ID":ID,
                 "phone":phone,
                 "patient":null,
-                "role": role
+                "role": role,
+                "refreshToken" :''
             };
             employeesDB.setEmployees([...employeesDB.employees, newEmployee]);
             await fsPromises.writeFile(
@@ -165,7 +176,7 @@ const handleNewUser = async (req, res) => {
 
 const handleLogout = async (req, res) => {
     const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(204); //No content
+    if (!cookies?.jwt) return res.sendStatus(200); //No content
     const refreshToken = cookies.jwt;
 
     const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -174,45 +185,50 @@ const handleLogout = async (req, res) => {
     let decoded
     try {
         decoded = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
+        console.log(decoded.UserInfo.role)
     } catch (error) {
         console.log(error)
         return res.status(404).json({'message':"Corupted cookies, try logging in again"})
     }
-    if(decoded.UserInfo.role ==="USER") {
-        const foundUser = usersDB.users.find(person=> person.refreshToken = refreshToken)
-        if (!foundUser) {
+    if(decoded.UserInfo.role ==="ADMIN") {
+        adminDB.setAdmin({})
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', 'model', 'admin.json'),
+            JSON.stringify(adminDB.admin))
+        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
+        res.sendStatus(204)
+    } else if(decoded.UserInfo.role==="USER") {
+        const foundUser = usersDB.users.find(person=>person.refreshToken===refreshToken)
+        if(!foundUser) {
             res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
             return res.sendStatus(204);
         }
-    
-        // Delete refreshToken in db
-        const otherUsers = usersDB.users.filter(person => person.refreshToken !== foundUser.refreshToken);
-        const currentUser = { ...foundUser, refreshToken: '' };
-        usersDB.setUsers([...otherUsers, currentUser]);
+        const otherUsers = usersDB.users.filter(person => person.refreshToken!== foundUser.refreshToken)
+        const currentUser ={...foundUser,refreshToken:''}
+        usersDB.setUsers([...otherUsers,currentUser])
         await fsPromises.writeFile(
             path.join(__dirname, '..', 'model', 'users.json'),
             JSON.stringify(usersDB.users)
         );
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-        res.sendStatus(204).json({'message':"logged out"});
+        res.sendStatus(204);
     } else {
-        const foundEmployee = employeesDB.employees.find(person => person.refreshToken = refreshToken)
-        if (!foundEmployee) {
+        const foundEmp = employeesDB.employees.find(person=>person.refreshToken===refreshToken)
+        if(!foundEmp) {
             res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
             return res.sendStatus(204);
         }
-
-        const otherEmployee = employeesDB.employees.filter(person => person.refreshToken !== foundEmployee.refreshToken);
-        const currentEmployee = { ...foundEmployee, refreshToken: '' };
-        employeesDB.setEmployees([...otherEmployee, currentEmployee]);
+        const otherEmp = employeesDB.employees.filter(person => person.refreshToken!== foundEmp.refreshToken)
+        const currentEmp ={...foundEmp,refreshToken:''}
+        employeesDB.setEmployees([...otherEmp,currentEmp])
         await fsPromises.writeFile(
             path.join(__dirname, '..', 'model', 'employees.json'),
             JSON.stringify(employeesDB.employees)
         );
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-        res.sendStatus(204).json({'message':"logged out"});
-        
+        res.sendStatus(204);
     }
+    
 }
 
 module.exports = { handleLogin, handleNewUser, handleLogout };

@@ -5,7 +5,7 @@ const verifyJWT = require('../../middleware/verifyJWT');
 
 router.use(verifyJWT)
 router.route('/all').get(usersController.getAllUser)
-router.route('/update').put(usersController.updateUsers)
+router.route('/update').patch(usersController.updateUsers)
 router.route('/delete').delete(usersController.deleteUsers)
 
 
