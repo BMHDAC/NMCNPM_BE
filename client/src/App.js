@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Login } from './pages/login_register';
 import {Register} from './pages/login_register';
 import Blog from './homepage/Blog';
+import AdminHome from './pages/Admin/AdminHome';
 
 function App() {
   return (
@@ -28,6 +29,12 @@ function App() {
           path='/homepage'
           element={
             <Blog />
+          }
+        />
+        <Route 
+          path="/admin"
+          element={
+            <AdminHome />
           }
         />
       </Routes>
