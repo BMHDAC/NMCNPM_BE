@@ -1,18 +1,16 @@
-## MERN Stack Doctor Appointment Booking App
+## Ứng dụng quản lý và đăng ký khám bệnh VietCare
 
-MERN Stack Doctor Appointment Booking Application using React , Redux Toolkit , AntD , Node , MongoDB 
+Công nghệ sử dụng : MERN Stack, React, MongoDB, Redux, Javascript, CSS, HTML, Typescript
+Program paradirm: Functional Oriented Programming 
 
-## Features :
+## Tính năng :
 
-Separate User Interfaces for Users, Admins, Doctors
+Giao diện phân biệt cho user, doctor, admin
+JWT Authentication
 
-JWT Authentication and Password Hashing
-
-Ant Design Library for UI Components,
 
 Redux Toolkit,
 
-Notifications Functionality for Users, Admin, and Doctors
+Chức năng thông báo cho Users, Admin, và Doctors
 
-Manage Users, Doctors, and Appointments from the Admin panel
-
+Quản lý Doctor, User thông qua Admin
