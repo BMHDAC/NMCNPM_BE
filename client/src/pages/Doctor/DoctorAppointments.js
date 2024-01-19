@@ -35,7 +35,7 @@ function DoctorAppointments() {
       dispatch(showLoading());
       const resposne = await axios.post(
         "/api/doctor/change-appointment-status",
-        { appointmentId : record._id, status: status },
+        { appointmentId: record._id, status: status },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -58,17 +58,17 @@ function DoctorAppointments() {
       dataIndex: "_id",
     },
     {
-      title: "Patient",
+      title: "Bệnh nhân",
       dataIndex: "name",
       render: (text, record) => <span>{record.userInfo.name}</span>,
     },
     {
-      title: "Phone",
+      title: "Điện thoại",
       dataIndex: "phoneNumber",
       render: (text, record) => <span>{record.doctorInfo.phoneNumber}</span>,
     },
     {
-      title: "Date & Time",
+      title: "Thời gian",
       dataIndex: "createdAt",
       render: (text, record) => (
         <span>
@@ -78,11 +78,11 @@ function DoctorAppointments() {
       ),
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
     },
     {
-      title: "Actions",
+      title: "Hành động",
       dataIndex: "actions",
       render: (text, record) => (
         <div className="d-flex">
@@ -111,7 +111,7 @@ function DoctorAppointments() {
   }, []);
   return (
     <Layout>
-      <h1 className="page-header">Appointments</h1>
+      <h1 className="page-header">Lịch hẹn</h1>
       <hr />
       <Table columns={columns} dataSource={appointments} />
     </Layout>

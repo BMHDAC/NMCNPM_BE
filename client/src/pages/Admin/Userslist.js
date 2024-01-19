@@ -32,7 +32,7 @@ function Userslist() {
 
   const columns = [
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
     },
     {
@@ -40,12 +40,12 @@ function Userslist() {
       dataIndex: "email",
     },
     {
-      title: "Created At",
+      title: "Ngày tạo",
       dataIndex: "createdAt",
-      render: (record , text) => moment(record.createdAt).format("DD-MM-YYYY"),
+      render: (record, text) => moment(record.createdAt).format("DD-MM-YYYY"),
     },
     {
-      title: "Actions",
+      title: "Hành động",
       dataIndex: "actions",
       render: (text, record) => (
         <div className="d-flex">
@@ -57,9 +57,9 @@ function Userslist() {
 
   return (
     <Layout>
-      <h1 className="page-header">Users List</h1>
+      <h1 className="page-header">Danh sách người dùng</h1>
       <hr />
-      <Table columns={columns} dataSource={users}/>
+      <Table columns={columns} dataSource={users} />
     </Layout>
   );
 }

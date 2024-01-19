@@ -28,11 +28,11 @@ function Appointments() {
   };
   const columns = [
     {
-        title: "Id",
-        dataIndex: "_id",
+      title: "Id",
+      dataIndex: "_id",
     },
     {
-      title: "Doctor",
+      title: "Bác sĩ",
       dataIndex: "name",
       render: (text, record) => (
         <span>
@@ -41,16 +41,16 @@ function Appointments() {
       ),
     },
     {
-      title: "Phone",
+      title: "Điện thoại",
       dataIndex: "phoneNumber",
       render: (text, record) => (
         <span>
-          {record.doctorInfo.phoneNumber} 
+          {record.doctorInfo.phoneNumber}
         </span>
       ),
     },
     {
-      title: "Date & Time",
+      title: "Thời gian",
       dataIndex: "createdAt",
       render: (text, record) => (
         <span>
@@ -59,18 +59,18 @@ function Appointments() {
       ),
     },
     {
-        title: "Status",
-        dataIndex: "status",
+      title: "Trạng thái",
+      dataIndex: "status",
     }
   ];
   useEffect(() => {
     getAppointmentsData();
   }, []);
-  return  <Layout>
-  <h1 className="page-title">Appointments</h1>
-  <hr />
-  <Table columns={columns} dataSource={appointments} />
-</Layout>
+  return <Layout>
+    <h1 className="page-title">Lịch hẹn</h1>
+    <hr />
+    <Table columns={columns} dataSource={appointments} />
+  </Layout>
 }
 
 export default Appointments;

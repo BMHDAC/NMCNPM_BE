@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "../../components/Layout";
 import { showLoading, hideLoading } from "../../redux/alertsSlice";
-import {toast} from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import axios from "axios";
 import { Table } from "antd";
 import moment from "moment";
@@ -54,7 +54,7 @@ function DoctorsList() {
   }, []);
   const columns = [
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       render: (text, record) => (
         <span>
@@ -63,20 +63,20 @@ function DoctorsList() {
       ),
     },
     {
-      title: "Phone",
+      title: "Điện thoại",
       dataIndex: "phoneNumber",
     },
     {
-      title: "Created At",
+      title: "Ngày tạo",
       dataIndex: "createdAt",
-      render: (record , text) => moment(record.createdAt).format("DD-MM-YYYY"),
+      render: (record, text) => moment(record.createdAt).format("DD-MM-YYYY"),
     },
     {
-      title: "status",
+      title: "Trạng thái",
       dataIndex: "status",
     },
     {
-      title: "Actions",
+      title: "Hành động",
       dataIndex: "actions",
       render: (text, record) => (
         <div className="d-flex">
@@ -102,7 +102,7 @@ function DoctorsList() {
   ];
   return (
     <Layout>
-      <h1 className="page-header">Doctors List</h1>
+      <h1 className="page-header">Danh sách bác sĩ</h1>
       <hr />
       <Table columns={columns} dataSource={doctors} />
     </Layout>
